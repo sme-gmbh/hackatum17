@@ -55,3 +55,19 @@ void MainWindow::on_pushButton_traingImageNew_clicked()
 
     ui->label_trainingImage->setPixmap(QPixmap::fromImage(image));
 }
+
+void MainWindow::on_pushButton_testLoadImage_clicked()
+{
+    QString filename = QFileDialog::getOpenFileName(this, "Add sample image to find logo", "", "Images (*.bmp *.gif *.jpg *.jpeg *.png *.pbm *.pgm *.ppm *.xbm *.xpm)");
+    if (filename.isEmpty())
+        return;
+
+    QImage image;
+    bool ok = image.load(filename);
+    if (!ok) {
+        QMessageBox::warning(this, "Failure", "Image could not be loaded!");
+        return;
+    }
+
+    ui->label_testImage->setPixmap(QPixmap::fromImage(image));
+}

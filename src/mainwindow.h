@@ -24,6 +24,8 @@ private slots:
 
     void on_pushButton_traingImageNew_clicked();
 
+    void on_pushButton_testLoadImage_clicked();
+
 private:
     Ui::MainWindow *ui;
 };
