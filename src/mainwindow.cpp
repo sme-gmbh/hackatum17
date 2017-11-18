@@ -207,6 +207,8 @@ QPoint MainWindow::findImage(QImage big, QImage small)
     int offsetXmax = bigSizeX - smallSizeX;
     int offsetYmax = bigSizeY - smallSizeY;
 
+    ui->heatMap->initialize(big.size(), 4);
+
     for (int offsetY = 0; offsetY <= offsetYmax; offsetY++) {
         for (int offsetX = 0; offsetX < offsetXmax; offsetX++) {
             currentBonus = 0.0;
@@ -218,15 +220,39 @@ QPoint MainWindow::findImage(QImage big, QImage small)
                 }
             }
 
+            currentBonus = weightFactor(big.size(), QPoint(offsetX, offsetY)) * currentBonus;
             if (currentBonus > bestBonus) {
                 bestBonus = currentBonus;
                 bestPosition = QPoint(offsetX, offsetY);
             }
 
+            ui->heatMap->paint(QPoint(offsetX + smallSizeX / 2, offsetY + smallSizeY / 2), currentBonus / 500.0);
         }
     }
     ui->label_compareResult->setNum(bestBonus);
     ui->spinBox_matchX->setValue(bestPosition.x());
     ui->spinBox_matchY->setValue(bestPosition.y());
+
+    ui->heatMap->finish();
+
     return bestPosition;
 }
+
+// Logos at corners of the image are more likely to be the correct logo we want to track,
+// so we introduce a weight function for that purpose
+// imageSize ist the size of the image in which we search for the logo
+// foundPosition is the Position we believe a logo could be
+// returns a weight from 0.0 to 1.0
+// 1.0 means: most likely to be the correct logo
+double MainWindow::weightFactor(QSize imageSize, QPoint foundPosition)
+{
+    QPoint centerOfImage = QPoint(imageSize.width() / 2, imageSize.height() / 2);
+    QPoint vectorFromCenter = foundPosition - centerOfImage;
+
+    double cornerDistance = sqrt(pow(imageSize.width() / 2, 2) +  pow(imageSize.height() / 2, 2));
+    double distance = sqrt(pow(vectorFromCenter.x(), 2) + pow(vectorFromCenter.x(), 2));
+
+    return pow((distance / cornerDistance), 3);
+}
+
+

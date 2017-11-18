@@ -43,6 +43,7 @@ private:
     void loadReferenceImages();
     void paintReferenceInTest();
     QPoint findImage(QImage big, QImage small);
+    double weightFactor(QSize imageSize, QPoint foundPosition);
 };
 
 #endif // MAINWINDOW_H

@@ -28,10 +28,12 @@ CONFIG(debug, debug|release) {
 SOURCES += main.cpp\
         mainwindow.cpp \
     imagefilter.cpp \
-    imagetransform.cpp
+    imagetransform.cpp \
+    heatmap.cpp
 
 HEADERS  += mainwindow.h \
     imagefilter.h \
-    imagetransform.h
+    imagetransform.h \
+    heatmap.h
 
 FORMS    += mainwindow.ui
