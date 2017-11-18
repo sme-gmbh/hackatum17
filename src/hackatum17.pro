@@ -26,8 +26,12 @@ CONFIG(debug, debug|release) {
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp
+        mainwindow.cpp \
+    imagefilter.cpp \
+    imagetransform.cpp
 
-HEADERS  += mainwindow.h
+HEADERS  += mainwindow.h \
+    imagefilter.h \
+    imagetransform.h
 
 FORMS    += mainwindow.ui
